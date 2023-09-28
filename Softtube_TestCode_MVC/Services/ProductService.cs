@@ -41,5 +41,28 @@ namespace Softtube_TestCode_MVC.Services
             }
         }
 
+        public async Task<IEnumerable<ProductItem>> GetAllSearchedProducts(string searchQuery)
+        {
+            // Modify the API endpoint to include the search query parameter
+            HttpResponseMessage response = await _httpClient.GetAsync("products?pageSize=500");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                // Deserialize the JSON response into a ProductViewModel object
+                var result = JsonConvert.DeserializeObject<ProductViewModel>(apiResponse);
+
+                // Extract the required properties from each item and get the searched product
+                IEnumerable<ProductItem> filteredProducts = result.Result.Where(item => item.Name.Contains(searchQuery));
+
+                return filteredProducts;
+            }
+            else
+            {
+                throw new HttpRequestException($"API request failed with status code {response.StatusCode}");
+            }
+        }
+
     }
 }

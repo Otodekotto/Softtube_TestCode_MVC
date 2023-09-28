@@ -23,6 +23,19 @@ namespace Softtube_TestCode_MVC.Controllers
             return View(products);
 
         }
+        [HttpGet("SearchProduct")]
+        public async Task<IActionResult> SearchProduct(string searchQuery)
+        {
+            IEnumerable<ProductViewModel.ProductItem> products = await _productService.GetAllSearchedProducts(searchQuery);
+
+            // Return a partial view with the updated product data
+            return View("Search", products);
+        }
+
+
+
+
+
 
         public IActionResult Privacy()
         {
