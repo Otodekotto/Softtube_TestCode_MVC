@@ -6,6 +6,7 @@
 <!-- Link to an external JavaScript file -->
 <script>
     var totalCount = @Model.Count();
+    var totalPage
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/navigation.js"></script>
@@ -16,7 +17,7 @@
     <h1 class="display-4">Softtube Code Test</h1>
 </div>
 
-<form asp-controller="Home" asp-action="SearchProduct" method="get">
+<form asp-controller="Home" asp-action="SearchProduct" method="get" style="padding-bottom: 20px;">
     <div class="row">
         <div class="col-md-8">
             <input type="text" id="searchInput" name="searchQuery" placeholder="Search..." class="form-control" />
@@ -45,6 +46,10 @@
             </div>
         }
     </div>
+</div>
+
+<div class="page-info">
+    Page <span id="currentPage"></span> of <span id="totalPages"></span>
 </div>
 
 <div class="button-container">

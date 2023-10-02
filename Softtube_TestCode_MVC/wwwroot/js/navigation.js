@@ -15,6 +15,10 @@
 
         // Show items for the current page
         $('.product-item').slice(startIndex, endIndex).show();
+
+        // Update current page and total pages
+        $('#currentPage').text(currentPage + 1); // Add 1 to start from page 1
+        $('#totalPages').text(totalPages);
     }
 
     // Initialize the view

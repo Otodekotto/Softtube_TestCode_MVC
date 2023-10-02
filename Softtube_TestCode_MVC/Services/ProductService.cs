@@ -44,7 +44,16 @@ namespace Softtube_TestCode_MVC.Services
         public async Task<IEnumerable<ProductItem>> GetAllSearchedProducts(string searchQuery)
         {
             // Modify the API endpoint to include the search query parameter
-            HttpResponseMessage response = await _httpClient.GetAsync("products?pageSize=500");
+            HttpResponseMessage response;
+
+            if (searchQuery != null)
+            {
+                response = await _httpClient.GetAsync($"products?search={searchQuery}&pageSize=500");
+            }
+            else
+            {
+                response = await _httpClient.GetAsync("products?pageSize=500");
+            }
 
             if (response.IsSuccessStatusCode)
             {
@@ -54,7 +63,22 @@ namespace Softtube_TestCode_MVC.Services
                 var result = JsonConvert.DeserializeObject<ProductViewModel>(apiResponse);
 
                 // Extract the required properties from each item and get the searched product
-                IEnumerable<ProductItem> filteredProducts = result.Result.Where(item => item.Name.Contains(searchQuery));
+                IEnumerable<ProductItem> filteredProducts;
+
+                if (searchQuery != null)
+                {
+                    filteredProducts = result.Result.Where(item => item.Name.ToLower().Contains(searchQuery.ToLower()));
+                }
+                else
+                {
+                    // If searchQuery is null, return all products without filtering
+                    IEnumerable<ProductItem> products = result.Result.Select(item => new ProductItem
+                    {
+                        Name = item.Name,
+                        Images = new Images { W240 = item.Images?.W240 }
+                    });
+                    return products;
+                }
 
                 return filteredProducts;
             }

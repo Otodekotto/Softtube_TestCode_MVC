@@ -16,7 +16,7 @@
     <h1 class="display-4">Softtube Code Test</h1>
 </div>
 
-<form asp-controller="Home" asp-action="SearchProduct" method="get">
+<form asp-controller="Home" asp-action="SearchProduct" method="get" style="padding-bottom: 20px;">
     <div class="row">
         <div class="col-md-8">
             <input type="text" id="searchInput" name="searchQuery" placeholder="Search..." class="form-control" />
@@ -46,7 +46,9 @@
         }
     </div>
 </div>
-
+<div class="page-info">
+    Page <span id="currentPage"></span> of <span id="totalPages"></span>
+</div>
 <div class="button-container">
     <button id="prevPage" class="custom-button">Previous Page</button>
     <button id="nextPage" class="custom-button">Next Page</button>
